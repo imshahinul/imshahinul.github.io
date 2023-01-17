@@ -22,7 +22,9 @@ background: '/img/posts/32530553776_19ee921350_b.jpeg'
 You must have superuser access in order to load PL/Python into your database. To do this, you must:<p>
 
 <pre>
+    <code>
 CREATE EXTENSION plpython3u;
+    </code>
 </pre>
 
 <p>Python 3 will be used by plpython3u; Python 2 will be used by default (if you install using the generic language name plpythonu). The Python 2 vs. Python 3 section is helpful to read even if you know you'll only be using one kind. The official documentation does state that it is possible to use both Python 2 and Python 3 in the same database but in separate sessions.</p>
@@ -37,6 +39,7 @@ CREATE EXTENSION plpython3u;
 <p>The Python standard library's urllib.parse, which is used in the straightforward code below, is an example of a basic function.</p>
 
 <pre>
+    <code>
 CREATE OR REPLACE FUNCTION url_quote (url text)
 RETURNS TEXT
 AS $$
@@ -47,6 +50,7 @@ $$
 LANGUAGE 'plpython3u';
 
 SELECT url_quote('https://www.postgresql.org/docs/12/plpython-data.html#id-1.8.11.11.3');
+</code>
 </pre>
 
 <p>Other than including the import statement in your function code, there is nothing else you need to do to use urllib.parse as it is a built-in module. This should show that utilizing PL/Python rather than trying to achieve the same goal with regular SQL or PL/pgSQL might be simpler and faster.</p>
