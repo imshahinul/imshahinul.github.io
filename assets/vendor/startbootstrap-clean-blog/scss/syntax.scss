@@ -1,0 +1,276 @@
+$color_1: #FFFFFF;
+$color_2: #515151;
+$color_3: #75715e;
+$color_4: #960050;
+$color_5: #66d9ef;
+$color_6: #ae81ff;
+$color_7: #f8f8f2;
+$color_8: #f92672;
+$color_9: #e6db74;
+$color_10: #a6e22e;
+$background-color_1: #49483E;
+$background-color_2: #1e0010;
+
+/* Adjusted to give override background and text colour */
+/* Highlights taken from https://gist.github.com/asaaki/1007420  for Monokai theme */
+/* Comment                     */
+/* Error                       */
+/* Keyword                     */
+/* Literal                     */
+/* Name                        */
+/* Operator                    */
+/* Punctuation                 */
+/* Comment.Multiline           */
+/* Comment.Preproc             */
+/* Comment.Single              */
+/* Comment.Special             */
+/* Generic.Emph                */
+/* Generic.Strong              */
+/* Keyword.Constant            */
+/* Keyword.Declaration         */
+/* Keyword.Namespace           */
+/* Keyword.Pseudo              */
+/* Keyword.Reserved            */
+/* Keyword.Type                */
+/* Literal.Date                */
+/* Literal.Number              */
+/* Literal.String              */
+/* Name.Attribute              */
+/* Name.Builtin                */
+/* Name.Class                  */
+/* Name.Constant               */
+/* Name.Decorator              */
+/* Name.Entity                 */
+/* Name.Exception              */
+/* Name.Function               */
+/* Name.Label                  */
+/* Name.Namespace              */
+/* Name.Other                  */
+/* Name.Property               */
+/* Name.Tag                    */
+/* Name.Variable               */
+/* Operator.Word               */
+/* Text.Whitespace             */
+/* Literal.Number.Float        */
+/* Literal.Number.Hex          */
+/* Literal.Number.Integer      */
+/* Literal.Number.Oct          */
+/* Literal.String.Backtick     */
+/* Literal.String.Char         */
+/* Literal.String.Doc          */
+/* Literal.String.Double       */
+/* Literal.String.Escape       */
+/* Literal.String.Heredoc      */
+/* Literal.String.Interpol     */
+/* Literal.String.Other        */
+/* Literal.String.Regex        */
+/* Literal.String.Single       */
+/* Literal.String.Symbol       */
+/* Name.Builtin.Pseudo         */
+/* Name.Variable.Class         */
+/* Name.Variable.Global        */
+/* Name.Variable.Instance      */
+/* Literal.Number.Integer.Long */
+.highlight {
+	pre {
+		background-color: $background-color_1;
+		border: 1px solid #ccc;
+		padding: 6px 10px;
+		border-radius: 3px;
+		color: $color_1;
+	}
+	.hll {
+		background-color: $background-color_1;
+		border: 1px solid #ccc;
+		padding: 6px 10px;
+		border-radius: 3px;
+		color: $color_1;
+	}
+}
+pre {
+	background-color: $background-color_1;
+	border: 1px solid #ccc;
+	padding: 6px 10px;
+	border-radius: 3px;
+	color: $color_1;
+}
+.gist {
+	pre {
+		color: $color_2;
+	}
+}
+.c {
+	color: $color_3;
+}
+.err {
+	color: $color_4;
+	background-color: $background-color_2;
+}
+.k {
+	color: $color_5;
+}
+.l {
+	color: $color_6;
+}
+.n {
+	color: $color_7;
+}
+.o {
+	color: $color_8;
+}
+.p {
+	color: $color_7;
+}
+.cm {
+	color: $color_3;
+}
+.cp {
+	color: $color_3;
+}
+.c1 {
+	color: $color_3;
+}
+.cs {
+	color: $color_3;
+}
+.ge {
+	font-style: italic;
+}
+.gs {
+	font-weight: bold;
+}
+.kc {
+	color: $color_5;
+}
+.kd {
+	color: $color_5;
+}
+.kn {
+	color: $color_8;
+}
+.kp {
+	color: $color_5;
+}
+.kr {
+	color: $color_5;
+}
+.kt {
+	color: $color_5;
+}
+.ld {
+	color: $color_9;
+}
+.m {
+	color: $color_6;
+}
+.s {
+	color: $color_9;
+}
+.na {
+	color: $color_10;
+}
+.nb {
+	color: $color_7;
+}
+.nc {
+	color: $color_10;
+}
+.no {
+	color: $color_5;
+}
+.nd {
+	color: $color_10;
+}
+.ni {
+	color: $color_7;
+}
+.ne {
+	color: $color_10;
+}
+.nf {
+	color: $color_10;
+}
+.nl {
+	color: $color_7;
+}
+.nn {
+	color: $color_7;
+}
+.nx {
+	color: $color_10;
+}
+.py {
+	color: $color_7;
+}
+.nt {
+	color: $color_8;
+}
+.nv {
+	color: $color_7;
+}
+.ow {
+	color: $color_8;
+}
+.w {
+	color: $color_7;
+}
+.mf {
+	color: $color_6;
+}
+.mh {
+	color: $color_6;
+}
+.mi {
+	color: $color_6;
+}
+.mo {
+	color: $color_6;
+}
+.sb {
+	color: $color_9;
+}
+.sc {
+	color: $color_9;
+}
+.sd {
+	color: $color_9;
+}
+.s2 {
+	color: $color_9;
+}
+.se {
+	color: $color_6;
+}
+.sh {
+	color: $color_9;
+}
+.si {
+	color: $color_9;
+}
+.sx {
+	color: $color_9;
+}
+.sr {
+	color: $color_9;
+}
+.s1 {
+	color: $color_9;
+}
+.ss {
+	color: $color_9;
+}
+.bp {
+	color: $color_7;
+}
+.vc {
+	color: $color_7;
+}
+.vg {
+	color: $color_7;
+}
+.vi {
+	color: $color_7;
+}
+.il {
+	color: $color_6;
+}
