@@ -21,9 +21,9 @@ background: '/img/posts/32530553776_19ee921350_b.jpeg'
 <p>I'll count on the fact that you already have a PostgreSQL database. PL/Python is a basic component of PostgreSQL, however first you must make sure Python is installed on the same system (it may or may not already be shipped with the OS). For your convenience, the Postgres container of the Crunchy Developer Portal includes Python. Your routines have to make a call to the server's Python interpreter.
 You must have superuser access in order to load PL/Python into your database. To do this, you must:<p>
 
-~~~ python
+<pre>
 CREATE EXTENSION plpython3u;
-~~~
+</pre>
 
 <p>Python 3 will be used by plpython3u; Python 2 will be used by default (if you install using the generic language name plpythonu). The Python 2 vs. Python 3 section is helpful to read even if you know you'll only be using one kind. The official documentation does state that it is possible to use both Python 2 and Python 3 in the same database but in separate sessions.</p>
 
@@ -31,12 +31,12 @@ CREATE EXTENSION plpython3u;
 
 <p>PL/Python is a "untrusted" language in Postgres because there is no method to prevent Python code from accessing the filesystem of the host machine. There is a higher risk when using PL/Python than when using a trusted language like PL/pgSQL because it is an untrusted language (indicated by the "u" in the language name).</p>
 
-### An example of a Python/PL function
+<h3> An example of a Python/PL function</h3>
 <p>For the creation of PL/Python functions, you also require superuser rights. An approach is to use PL/Python as a trusted language in a separate development environment. Other users can create functions while the application is still in development, and these functions can then be properly tested and vetted before being moved into production. You could find this workflow to be suitable, but use caution still!</p>
 
 <p>The Python standard library's urllib.parse, which is used in the straightforward code below, is an example of a basic function.</p>
 
-~~~ python
+<pre>
 CREATE OR REPLACE FUNCTION url_quote (url text)
 RETURNS TEXT
 AS $$
@@ -47,7 +47,7 @@ $$
 LANGUAGE 'plpython3u';
 
 SELECT url_quote('https://www.postgresql.org/docs/12/plpython-data.html#id-1.8.11.11.3');
-~~~
+</pre>
 
 <p>Other than including the import statement in your function code, there is nothing else you need to do to use urllib.parse as it is a built-in module. This should show that utilizing PL/Python rather than trying to achieve the same goal with regular SQL or PL/pgSQL might be simpler and faster.</p>
 
