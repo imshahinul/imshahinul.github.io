@@ -1,0 +1,55 @@
+---
+layout: post
+title: "Learning the Basics of PL/Python Postgres Functions"
+subtitle: "One of the several procedural languages (PLs) that are part of the default PostgreSQL releases is Python. In this lesson, we'll quickly go through how to begin creating Postgres functions in PL/Python."
+date: 2020-01-26 23:45:13 -0400
+background: '/img/posts/01.jpg'
+---
+
+User-defined functions in Postgres are comprised sections of code that are effectively preserved for usage in the future, much like how programming functions in general. Each time a function is utilized, it completes a particular task. Postgres' ability to build these functions in languages other than plain SQL is a powerful tool, especially if you're an app or web developer. One that is frequently used is PL/pgSQL, which is merely an extension of SQL that includes new syntax for processing data rather than just querying it.
+
+However, there are still some situations when it may be better to use a different language, such as Python, R, or Java. Popular programming languages for data analysis include Python and R. Even if PL/pgSQL might be able to handle some of the processing you require, having access to the set of specialized tools available in Python or R will likely just make things a lot easier for you overall.
+
+### With PostgreSQL, why use Python?
+Python excels when it comes to scientific computing because it has entire libraries, communities, and ecosystems developed that are specifically devoted to scientific computing, such as SciPy, NumPy, and Pandas. Python has a ton of open source packages that are extensively used across various industries.
+
+In other words, using PL/Python enables you to extend Postgres in ways that PL/pgSQL isn't as capable of doing out of the box. Additionally, PL/Python becomes a practical choice if you are already familiar with Python and don't want to learn or have the time to do so.
+
+I want to clarify that PL/Python is only meant to be used with Python that is embedded inside of Postgres. Many of you may be utilizing an object relational mapper (ORM), such as in Django, to connect Python and Postgres from within your Python environment, either by using a standard driver like psycopg2 or on a more advanced level. If you're new to Postgres like I am, you should understand that PL/Python is used in many situations and for various objectives.
+
+### What is necessary for you
+I'll count on the fact that you already have a PostgreSQL database. PL/Python is a basic component of PostgreSQL, however first you must make sure Python is installed on the same system (it may or may not already be shipped with the OS). For your convenience, the Postgres container of the Crunchy Developer Portal includes Python. Your routines have to make a call to the server's Python interpreter.
+You must have superuser access in order to load PL/Python into your database. To do this, you must:
+
+```
+CREATE EXTENSION plpython3u;
+```
+
+Python 3 will be used by plpython3u; Python 2 will be used by default (if you install using the generic language name plpythonu). The Python 2 vs. Python 3 section is helpful to read even if you know you'll only be using one kind. The official documentation does state that it is possible to use both Python 2 and Python 3 in the same database but in separate sessions.
+
+Considering that Python 2.7 (the last release in the 2.x series) is deprecated, you should probably continue using plpython3u for the time being.
+
+PL/Python is a "untrusted" language in Postgres because there is no method to prevent Python code from accessing the filesystem of the host machine. There is a higher risk when using PL/Python than when using a trusted language like PL/pgSQL because it is an untrusted language (indicated by the "u" in the language name).
+
+### An example of a Python/PL function
+For the creation of PL/Python functions, you also require superuser rights. An approach is to use PL/Python as a trusted language in a separate development environment. Other users can create functions while the application is still in development, and these functions can then be properly tested and vetted before being moved into production. You could find this workflow to be suitable, but use caution still!
+
+The Python standard library's urllib.parse, which is used in the straightforward code below, is an example of a basic function.
+
+```
+CREATE OR REPLACE FUNCTION url_quote (url text)
+RETURNS TEXT
+AS $$
+    from urllib.parse import quote
+    return quote(url)
+
+$$
+LANGUAGE 'plpython3u';
+
+SELECT url_quote('https://www.postgresql.org/docs/12/plpython-data.html#id-1.8.11.11.3');
+```
+
+Other than including the import statement in your function code, there is nothing else you need to do to use urllib.parse as it is a built-in module. This should show that utilizing PL/Python rather than trying to achieve the same goal with regular SQL or PL/pgSQL might be simpler and faster.
+
+And what about third-party packages like SciPy, NumPy, or Pandas? In general, you should be able to use import as you normally would as long as the package is installed on the same system as Python. Instead of sending the data off to be consumed by an external client (and maybe needing to modify it first to some other format), you can think about having PL/Python handle some of the heavy lifting right where the data itself already exists.
+
