@@ -37,16 +37,33 @@ CREATE EXTENSION plpython3u;
 <p>The Python standard library's urllib.parse, which is used in the straightforward code below, is an example of a basic function.</p>
 
 {% highlight sql %}
-CREATE OR REPLACE FUNCTION url_quote (url text)
-RETURNS TEXT
-AS $$
-    from urllib.parse import quote
-    return quote(url)
+create or replace function agg_tbl(x numeric[])
+returns table(count float, mean float, std float, min float)
+as $$
+    import pandas as pd
+    import numpy as np
+    data=pd.Series(x)
 
-$$
-LANGUAGE 'plpython3u';
+    count=data.describe()[0]
+    mean=data.describe()[1]
+    std=data.describe()[2]
+    min=data.describe()[3]
 
-SELECT url_quote('https://www.postgresql.org/docs/12/plpython-data.html#id-1.8.11.11.3');
+    return np.array([count, mean, std, min]).reshape(1,-1)
+
+$$ language plpython3u;
+{% endhighlight %}
+
+<p>Lets check the output </p>
+
+{% highlight sql %}
+SELECT * FROM agg_tbl(ARRAY[1,2,3]);
+
+ count | mean | std | min
+-------+------+-----+-----
+     3 |    3 |   1 |   1
+(1 row)
+
 {% endhighlight %}
 
 <p>Other than including the import statement in your function code, there is nothing else you need to do to use urllib.parse as it is a built-in module. This should show that utilizing PL/Python rather than trying to achieve the same goal with regular SQL or PL/pgSQL might be simpler and faster.</p>
