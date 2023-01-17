@@ -34,7 +34,7 @@ CREATE EXTENSION plpython3u;
 <h3> An example of a Python/PL function</h3>
 <p>For the creation of PL/Python functions, you also require superuser rights. An approach is to use PL/Python as a trusted language in a separate development environment. Other users can create functions while the application is still in development, and these functions can then be properly tested and vetted before being moved into production. You could find this workflow to be suitable, but use caution still!</p>
 
-<p>The Python standard library's urllib.parse, which is used in the straightforward code below, is an example of a basic function.</p>
+<p>Lets create a function to return a table consisting count, mean, standard deviation and min of an array of numbers using pandas and numpy</p>
 
 {% highlight sql %}
 create or replace function agg_tbl(x numeric[])
