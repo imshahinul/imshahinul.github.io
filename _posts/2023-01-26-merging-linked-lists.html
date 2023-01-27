@@ -1,0 +1,50 @@
+---
+layout: post
+title: "Merge two linked lists which are sorted in increment order"
+subtitle: "In this article we are going to demonstrate multiple approaches to merge two linked list"
+date: 2023-01-26 13:49:43 -0500
+background: '/img/posts/9759.jpg'
+---
+
+For this article we are using two linked lists.
+
+{% highlight python %}
+2 -> 5 -> 9 -> 12 -> 15 -> 20
+{% endhighlight %}
+
+and
+
+{% highlight python %}
+3 -> 7 -> 10 -> 17 -> 22
+{% endhighlight %}
+
+Each of these linked lists nodes are represented with following code
+
+{% highlight python %}
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+{% endhighlight %}
+
+For first one we are going to use recursive approach.
+
+{% highlight python %}
+
+def merge_two_lists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+    # check list1 is empty, so return the list2
+    if list1 is None:
+        return list2
+    # check list2 is empty, so return the list1
+    if list2 is None:
+        return list1
+
+    # call mergeLinkedList recurively
+    if (list1.val < list2.val):
+        list1.next = self.merge_two_lists(list1.next, list2)
+        return list1
+    else:
+        list2.next = self.merge_two_lists(list2.next, list1)
+        return list2
+
+{% endhighlight %}
