@@ -99,3 +99,63 @@ class Solution:
 
         return dummy.next
 {% endhighlight %}
+
+<p>In this approach we will maintain both the linked lists in decreasing order; this means both linked lists will be reversed. Then, comparing the head of each list and adding to the last of the resultant list will get the LinkedList in increasing order.</p>
+
+{% highlight python %}
+class Solution:
+    def merge_two_lists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        # If both lists are empty
+        if (list1 == None and list2 == None):
+            return None
+
+        # Initialize head of resultant list
+        res = None
+
+        # Traverse both lists while both of then
+        # have nodes.
+        while (list1 != None and list2 != None):
+
+            # If list1's current value is smaller or equal to
+            # list2's current value.
+            if (list1.val <= list2.val):
+
+                # Store next of current Node in first list
+                temp = list1.next
+
+                # Add 'list1' at the front of resultant list
+                list1.next = res
+                res = list1
+
+                # Move ahead in first list
+                list1 = temp
+
+            # If list1's value is greater. Below steps are similar
+            # to above (Only 'list1' is replaced with 'list2')
+            else:
+
+                temp = list2.next
+                list2.next = res
+                res = list2
+                list2 = temp
+
+        # If second list reached end, but first list has
+        # nodes. Add remaining nodes of first list at the
+        # front of result list
+        while (list1 != None):
+            temp = list1.next
+            list1.next = res
+            res = list1
+            list1 = temp
+
+        # If first list reached end, but second list has
+        # node. Add remaining nodes of first list at the
+        # front of result list
+        while (list2 != None):
+            temp = list2.next
+            list2.next = res
+            res = list2
+            list2 = temp
+
+        return res
+{% endhighlight %}
