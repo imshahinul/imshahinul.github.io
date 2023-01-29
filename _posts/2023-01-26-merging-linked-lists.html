@@ -38,21 +38,64 @@ class ListNode:
 <p>In this method, we'll combine two sorted linked lists using recursion. One of the simplest methods for overcoming this issue is this. The key idea behind the method is that by sending the current nodes as a parameter to the recursive function, we can keep track of the current nodes in both lists. Each time the recursive call is made, the node with the lower node value will be updated. Two lists will merge as a result of this.</p>
 
 {% highlight python %}
+class Solution:
+    def merge_two_lists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        # check list1 is empty, so return the list2
+        if list1 is None:
+            return list2
+        # check list2 is empty, so return the list1
+        if list2 is None:
+            return list1
 
-def merge_two_lists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
-    # check list1 is empty, so return the list2
-    if list1 is None:
-        return list2
-    # check list2 is empty, so return the list1
-    if list2 is None:
-        return list1
+        # call merge_two_lists recurively
+        if (list1.val < list2.val):
+            list1.next = self.merge_two_lists(list1.next, list2)
+            return list1
+        else:
+            list2.next = self.merge_two_lists(list2.next, list1)
+            return list2
 
-    # call merge_two_lists recurively
-    if (list1.val < list2.val):
-        list1.next = self.merge_two_lists(list1.next, list2)
-        return list1
-    else:
-        list2.next = self.merge_two_lists(list2.next, list1)
-        return list2
+{% endhighlight %}
 
+<h3>Dummy node approach</h3>
+<p>In this approach we will start by creating a dummy node as output of the merged linked list. The tail pointer will inititally will point to this dummy node. Eventually the tail pointer will point to end node after completing this merging process.</p>
+
+{% highlight python %}
+class Solution:
+    def merge_two_lists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        # list1 dummy first node to hang the result on
+        dummy = ListNode()
+
+        # points to the last result node — so `tail.next` is the place
+        # to add new nodes to the result.
+        tail = dummy
+
+        while True:
+
+            # if either list runs out, use the other list
+            if list1 is None:
+                tail.next = list2
+                break
+            elif list2 is None:
+                tail.next = list1
+                break
+
+            if list1.val <= list2.val:
+                if list1:
+                    newNode = list1  # the front source node
+                    list1 = list1.next  # advance the source
+
+                    newNode.next = tail.next  # link the old dest off the new node
+                    tail.next = newNode  # move dest to point to the new node
+
+            elif list2:
+                newNode = list2  # the front source node
+                list2 = list2.next  # advance the source
+
+                newNode.next = tail.next  # link the old dest off the new node
+                tail.next = newNode  # move dest to point to the new node
+
+            tail = tail.next
+
+        return dummy.next
 {% endhighlight %}
