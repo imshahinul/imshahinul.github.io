@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Merge two sorted linked lists in various approaches"
-subtitle: "In this article we are going to demonstrate multiple approaches to merge two linked list"
+title: "Mastering the Art of Linked List Merging: Multiple Techniques Explored"
+subtitle: "In this article, we will be showcasing different methods for merging two linked lists."
 date: 2023-01-26 13:49:43 -0500
 background: '/img/posts/9759.jpg'
 ---
@@ -22,8 +22,8 @@ background: '/img/posts/9759.jpg'
 
 {% highlight python %}
 class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
+    def __init__(self, val=None, next=None):
+        self.val = data
         self.next = next
 {% endhighlight %}
 
@@ -34,128 +34,141 @@ class ListNode:
 11 -> 17 -> 19 -> 21 -> 28 -> 29 -> 39 -> 43 -> 44 -> 51 -> 65
 {% endhighlight %}
 
-<h3>Recursive Approach</h3>
-<p>In this method, we'll combine two sorted linked lists using recursion. One of the simplest methods for overcoming this issue is this. The key idea behind the method is that by sending the current nodes as a parameter to the recursive function, we can keep track of the current nodes in both lists. Each time the recursive call is made, the node with the lower node value will be updated. Two lists will merge as a result of this.</p>
+<h3>Brute Force Method</h3>
+<p>The concept is to merge both linked lists and sort the result to obtain the final output. To achieve this, the second list will be added to the end of the first list.</p>
+<p>The brute force method to merge two sorted linked lists is as follows:</p>
+
+<ul>
+    <li>Initialize two pointers, one for each linked list.</li>
+
+    <li>Compare the data values at the current node of both linked lists, and the node with the smaller value will be
+        added to the resultant linked list.
+    </li>
+
+    <li>Move the pointer to the next node of the linked list from which the node was added.</li>
+
+    <li>Repeat steps 2 and 3 until both linked lists have been traversed.</li>
+
+    <li>If one of the linked lists has been traversed and there are still elements in the other linked list, add the
+        remaining elements of the linked list to the resultant linked list.
+    </li>
+
+    <li>Return the resultant linked list.</li>
+</ul>
+
+<p>Here's a sample implementation in Python:</p>
 
 {% highlight python %}
-class Solution:
-    def merge_two_lists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
-        # check list1 is empty, so return the list2
-        if list1 is None:
-            return list2
-        # check list2 is empty, so return the list1
-        if list2 is None:
-            return list1
-
-        # call merge_two_lists recurively
-        if (list1.val < list2.val):
-            list1.next = self.merge_two_lists(list1.next, list2)
-            return list1
+def merge_linked_lists(head1, head2):
+    dummy = ListNode()
+    tail = dummy
+    while head1 and head2:
+        if head1.val < head2.val:
+            tail.next = head1
+            head1 = head1.next
         else:
-            list2.next = self.merge_two_lists(list2.next, list1)
-            return list2
+            tail.next = head2
+            head2 = head2.next
+        tail = tail.next
+    tail.next = head1 or head2
+    return dummy.next
 
 {% endhighlight %}
 
-<h3>Dummy node approach</h3>
-<p>In this approach we will start by creating a dummy node as output of the merged linked list. The tail pointer will inititally will point to this dummy node. Eventually the tail pointer will point to end node after completing this merging process.</p>
+<h3>Recursive Approach</h3>
+
+<p>The method of merging two sorted linked lists using recursion involves sending the current nodes of both lists as parameters to a recursive function. This allows us to track the current position in both lists. Each recursive call will compare the node values and add the node with the lower value to the result. This process continues until both lists are combined into one.</p>
+
+<p>The recursive approach to merge two sorted linked lists is as follows:</p>
+<ul>
+    <li>Create a base case, where one of the linked lists has been completely traversed and the node from the other linked list is added to the result linked list.</li>
+
+    <li>Compare the data values at the current node of both linked lists, and the node with the smaller value will be added to the resultant linked list.</li>
+
+    <li>Call the function recursively, with the next node of the linked list from which the node was added as the new head1 or head2.</li>
+
+    <li>Return the resultant linked list.</li>
+</ul>
+
+Here's a sample implementation in Python:
 
 {% highlight python %}
-class Solution:
-    def merge_two_lists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
-        # list1 dummy first node to hang the result on
-        dummy = ListNode()
-
-        # points to the last result node — so `tail.next` is the place
-        # to add new nodes to the result.
-        tail = dummy
-
-        while True:
-
-            # if either list runs out, use the other list
-            if list1 is None:
-                tail.next = list2
-                break
-            elif list2 is None:
-                tail.next = list1
-                break
-
-            if list1.val <= list2.val:
-                if list1:
-                    newNode = list1  # the front source node
-                    list1 = list1.next  # advance the source
-
-                    newNode.next = tail.next  # link the old dest off the new node
-                    tail.next = newNode  # move dest to point to the new node
-
-            elif list2:
-                newNode = list2  # the front source node
-                list2 = list2.next  # advance the source
-
-                newNode.next = tail.next  # link the old dest off the new node
-                tail.next = newNode  # move dest to point to the new node
-
-            tail = tail.next
-
-        return dummy.next
+def merge_linked_lists(head1, head2):
+    if not head1:
+        return head2
+    if not head2:
+        return head1
+    if head1.val < head2.val:
+        head1.next = merge_linked_lists(head1.next, head2)
+        return head1
+    else:
+        head2.next = merge_linked_lists(head1, head2.next)
+        return head2
 {% endhighlight %}
 
-<p>In this approach we will maintain both the linked lists in decreasing order; this means both linked lists will be reversed. Then, comparing the head of each list and adding to the last of the resultant list will get the LinkedList in increasing order.</p>
+<h3>Iterative merging</h3>
+<p>Iterative merging of two sorted linked lists involves combining two linked lists into a single sorted linked list. The approach involves using two pointers, one for each linked list, and comparing the node values at each iteration. The node with the smaller value is added to the result linked list and the pointer is moved to the next node of the linked list from which the node was added. This process continues until both linked lists have been traversed. The result linked list is then returned. The iterative approach is efficient and has a time complexity of O(n), where n is the total number of nodes in both linked lists.</p>
+
+<p>The iterative approach to merge two sorted linked lists is as follows:</p>
+
+<li>Create a dummy node to serve as the head of the result linked list, and a tail pointer that initially points to the dummy node.</li>
+
+<li>While both linked lists have nodes, compare the data values at the current nodes of both linked lists.</li>
+
+<li>The node with the smaller value will be added to the result linked list and the pointer for that linked list will move to the next node.</li>
+
+<li>Update the tail pointer to point to the last node added to the result linked list.</li>
+
+<li>When one of the linked lists has been completely traversed, append the remaining nodes from the other linked list to the result linked list.</li>
+
+<li>Return the result linked list, starting from the next node after the dummy node.</li>
+
+Here's a sample implementation in Python:
 
 {% highlight python %}
-class Solution:
-    def merge_two_lists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
-        # If both lists are empty
-        if (list1 == None and list2 == None):
-            return None
+def merge_linked_lists(head1, head2):
+    dummy = ListNode()
+    tail = dummy
+    while head1 and head2:
+        if head1.val < head2.val:
+            tail.next = head1
+            head1 = head1.next
+        else:
+            tail.next = head2
+            head2 = head2.next
+        tail = tail.next
+    tail.next = head1 or head2
+    return dummy.next
+{% endhighlight %}
 
-        # Initialize head of resultant list
-        res = None
+<h3>Iterative In-place approach</h3>
 
-        # Traverse both lists while both of then
-        # have nodes.
-        while (list1 != None and list2 != None):
+<p>Iterative In-Place Merging of two sorted linked lists is a method of merging two linked lists into a single sorted linked list without creating a new list or allocating extra memory. Instead, the elements from one of the linked lists are inserted into the other linked list in a sorted manner.</p>
 
-            # If list1's current value is smaller or equal to
-            # list2's current value.
-            if (list1.val <= list2.val):
+<p>The approach is as follows:</p>
 
-                # Store next of current Node in first list
-                temp = list1.next
+<li>Initialize two pointers, one for each linked list, to keep track of the current nodes.</li>
 
-                # Add 'list1' at the front of resultant list
-                list1.next = res
-                res = list1
+<li>Compare the values of the current nodes of both linked lists and insert the node with the smaller value into the result linked list.</li>
 
-                # Move ahead in first list
-                list1 = temp
+<li>Move the pointer of the linked list from which the node was inserted to the next node.</li>
 
-            # If list1's value is greater. Below steps are similar
-            # to above (Only 'list1' is replaced with 'list2')
-            else:
+<li>Repeat the above steps until both linked lists have been completely traversed.</li>
 
-                temp = list2.next
-                list2.next = res
-                res = list2
-                list2 = temp
+<p>Here's a sample implementation in Python:</p>
 
-        # If second list reached end, but first list has
-        # nodes. Add remaining nodes of first list at the
-        # front of result list
-        while (list1 != None):
-            temp = list1.next
-            list1.next = res
-            res = list1
-            list1 = temp
-
-        # If first list reached end, but second list has
-        # node. Add remaining nodes of first list at the
-        # front of result list
-        while (list2 != None):
-            temp = list2.next
-            list2.next = res
-            res = list2
-            list2 = temp
-
-        return res
+{% highlight python %}
+def merge_linked_lists(head1, head2):
+    dummy = ListNode(-1)
+    cur = dummy
+    while head1 and head2:
+        if head1.val < head2.val:
+            cur.next = head1
+            head1 = head1.next
+        else:
+            cur.next = head2
+            head2 = head2.next
+        cur = cur.next
+    cur.next = head1 or head2
+    return dummy.next
 {% endhighlight %}
