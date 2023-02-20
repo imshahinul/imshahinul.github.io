@@ -1,0 +1,95 @@
+---
+layout: post
+title: "Seamless Integration of Stripe into Django"
+date: 2023-02-20 18:39:13 -0500
+background: '/img/posts/django-stripe.png'
+---
+<p>Stripe is a popular payment processing platform that makes it easy for businesses to accept payments online. If you are building an e-commerce website using Django, integrating Stripe can be a great way to accept payments from your customers. In this article, we will walk you through the steps to integrate Stripe in Django.</p>
+
+<h3>Step 1: Create a Stripe account</h3>
+<p>Before you start integrating Stripe with your Django application, you need to create a Stripe account. You can do this by going to the Stripe website and signing up for an account.</p>
+
+<h3>Step 2: Install the Stripe library</h3>
+<p>Next, you need to install the Stripe library in your Django project. You can do this by running the following command in your project directory:</p>
+
+{% highlight python %}
+pip install stripe
+{% endhighlight %}
+
+<h3>Step 3: Set up Stripe in your Django project</h3>
+<p>To set up Stripe in your Django project, you need to add the following lines of code to your settings.py file:</p>
+
+{% highlight python %}
+STRIPE_SECRET_KEY = 'your-stripe-secret-key'
+STRIPE_PUBLISHABLE_KEY = 'your-stripe-publishable-key'
+{% endhighlight %}
+
+<p>You can find your Stripe API keys in your Stripe account dashboard.</p>
+
+<h3>Step 4: Create a payment form</h3>
+<p>To accept payments using Stripe, you need to create a payment form in your Django application. You can do this by creating a new form in your forms.py file. Here's an example:</p>
+
+{% highlight python %}
+from django import forms
+
+
+class PaymentForm(forms.Form):
+    amount = forms.IntegerField()
+    card_number = forms.CharField(max_length=16)
+    exp_month = forms.IntegerField()
+    exp_year = forms.IntegerField()
+    cvc = forms.CharField(max_length=3)
+{% endhighlight %}
+
+<h3>Step 5: Process payments using Stripe</h3>
+<p>Once you have created the payment form, you can use the Stripe library to process payments. Here's an example view function that processes a payment using Stripe:</p>
+
+{% highlight python %}
+import stripe
+from django.shortcuts import render
+
+from .forms import PaymentForm
+
+
+def process_payment(request):
+    if request.method == 'POST':
+        form = PaymentForm(request.POST)
+        if form.is_valid():
+            amount = form.cleaned_data['amount']
+            card_number = form.cleaned_data['card_number']
+            exp_month = form.cleaned_data['exp_month']
+            exp_year = form.cleaned_data['exp_year']
+            cvc = form.cleaned_data['cvc']
+
+            stripe.api_key = settings.STRIPE_SECRET_KEY
+
+            try:
+                charge = stripe.Charge.create(
+                    amount=amount,
+                    currency='usd',
+                    description='Payment',
+                    card={
+                        'number': card_number,
+                        'exp_month': exp_month,
+                        'exp_year': exp_year,
+                        'cvc': cvc,
+                    },
+                )
+            except stripe.error.CardError as e:
+                # Handle card error
+                pass
+
+            return render(request, 'payment_success.html')
+    else:
+        form = PaymentForm()
+
+    return render(request, 'payment.html', {'form': form})
+{% endhighlight %}
+
+<p>This view function first checks if the form is valid, and then uses the Stripe library to create a new charge. If the charge is successful, it redirects the user to a payment success page.</p>
+
+<h3>Step 6: Test your integration</h3>
+<p>Before going live with your Stripe integration, it's a good idea to test it thoroughly. You can use Stripe's test mode to test your integration. To do this, you need to set your Stripe API keys to the test mode keys. You can find these keys in your Stripe account dashboard.</p>
+
+<h3>Conclusion</h3>
+<p>Integrating Stripe in Django can seem like a daunting task, but with these steps, it's actually quite simple. By following these steps, you can easily accept payments from your customers and start growing your e-commerce business.</p>
