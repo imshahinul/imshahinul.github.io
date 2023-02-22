@@ -17,6 +17,17 @@ background: '/img/posts/json-jsonb.png'
 <p>The JSON data type is useful in scenarios where a fixed schema is not necessary, such as storing data from a
     third-party API or capturing user-generated data. For example, a social media platform might use JSON to store user
     profiles or posts, since the structure of the data can vary from user to user and post to post. </p>
+<p>You can add a json type column in table like following:</p>
+{% highlight sql %}
+ALTER TABLE 'payments' ADD COLUMN 'api_response' json;
+{% endhighlight %}
+
+<p>For inserting data into that column, you can do following:</p>
+{% highlight sql %}
+INSERT INTO 'payments'
+("api_response") VALUES('{ "trxtime": "2023-02-22 12:09:51.654000 +00:00", "attempts":
+[{"number": "1", "status": "failed"}, {"number": "2", "status": "success"}]');
+{% endhighlight %}
 <h4>Pros</h4>
 <ul>
     <li>Easy to use and widely supported: The JSON format is a widely-used standard, and it's easy to work with in
@@ -48,6 +59,17 @@ background: '/img/posts/json-jsonb.png'
     platform might use JSONB to store product data, which can include a large number of fields, nested objects, and
     other complex data.
 <p>
+<p>You can add a jsonb type column in table like following:</p>
+{% highlight sql %}
+ALTER TABLE 'payments' ADD COLUMN 'api_response' jsonb;
+{% endhighlight %}
+
+<p>For inserting data into that column, you can do following:</p>
+{% highlight sql %}
+INSERT INTO 'payments'
+("api_response") VALUES('{ "trxtime": "2023-02-22 12:09:51.654000 +00:00", "attempts":
+[{"number": "1", "status": "failed"}, {"number": "2", "status": "success"}]');
+{% endhighlight %}
 <h4>Pros</h4>
 <ul>
     <li>Fast read times: JSONB data can be read much faster than JSON data, making it a good option for applications
