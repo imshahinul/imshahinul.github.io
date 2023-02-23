@@ -39,12 +39,60 @@ background: '/img/posts/json-ops.png'
 <p>
     we use following operators.
 </p>
-| Operator | Description | Example | Returns | Return Type |
-| --- | --- | --- | --- | --- |
-| -> int | Get array element 1 | data->'phone'->1 | {"type": "work", "number": "646-555-4567"} | JSON |
-| -> text | Get object key name | data->'name' | "John" | JSON |
-| #> text[] | Get keypath phone,1,number | data#>'{phone,1,number}' | "646-555-4567" | JSON |
-| ->> int | Get array element 1 | data->'phone'->>1 | {"type": "work", "number": "646-555-4567"} | TEXT |
-| ->> text | Get object key name | data->>'name' | John | TEXT |
-| #> text[] | Get keypath phone,1,number | data#>>'{phone,1,number}' | 646-555-4567 | TEXT |
+<table>
+    <thead>
+    <tr>
+        <th>Operator</th>
+        <th>Description</th>
+        <th>Example</th>
+        <th>Returns</th>
+        <th>Return Type</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>-&gt; int</td>
+        <td>Get array element 1</td>
+        <td>data-&gt;&#39;phone&#39;-&gt;1</td>
+        <td>{&quot;type&quot;: &quot;work&quot;, &quot;number&quot;: &quot;646-555-4567&quot;}</td>
+        <td>JSON</td>
+    </tr>
+    <tr>
+        <td>-&gt; text</td>
+        <td>Get object key name</td>
+        <td>data-&gt;&#39;name&#39;</td>
+        <td>&quot;John&quot;</td>
+        <td>JSON</td>
+    </tr>
+    <tr>
+        <td>#&gt; text[]</td>
+        <td>Get keypath phone,1,number</td>
+        <td>data#&gt;&#39;{phone,1,number}&#39;</td>
+        <td>&quot;646-555-4567&quot;</td>
+        <td>JSON</td>
+    </tr>
+    <tr>
+        <td>-&gt;&gt; int</td>
+        <td>Get array element 1</td>
+        <td>data-&gt;&#39;phone&#39;-&gt;&gt;1</td>
+        <td>{&quot;type&quot;: &quot;work&quot;, &quot;number&quot;: &quot;646-555-4567&quot;}</td>
+        <td>TEXT</td>
+    </tr>
+    <tr>
+        <td>-&gt;&gt; text</td>
+        <td>Get object key name</td>
+        <td>data-&gt;&gt;&#39;name&#39;</td>
+        <td>John</td>
+        <td>TEXT</td>
+    </tr>
+    <tr>
+        <td>#&gt; text[]</td>
+        <td>Get keypath phone,1,number</td>
+        <td>data#&gt;&gt;&#39;{phone,1,number}&#39;</td>
+        <td>646-555-4567</td>
+        <td>TEXT</td>
+    </tr>
+    </tbody>
+</table>
+
 
