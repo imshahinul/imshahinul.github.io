@@ -16,7 +16,7 @@ linkedin_username: shahinulislam
 google_analytics:   G-18P0G4M471 # out your google-analytics code
 
 # Build settings
-markdown:           kramdown
+markdown:           GFM
 paginate:           10
 paginate_path:      "/posts/page:num/"
 plugins:
