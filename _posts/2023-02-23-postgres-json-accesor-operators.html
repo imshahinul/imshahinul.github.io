@@ -1,0 +1,50 @@
+---
+layout: post
+title: "Data accessors and operators that can be utilized to work with JSON and JSONB data types in PostgreSQL"
+date: 2023-02-23 07:38:45 -0500
+background: '/img/posts/json-ops.png'
+---
+<p>
+    PostgreSQL is an open-source relational database management system that supports various data types, including JSON
+    (JavaScript Object Notation) and JSONB (JSON Binary). JSON is a lightweight data interchange format that is easy for
+    humans to read and write, while JSONB is a binary representation of JSON that provides better storage and query
+    performance. In this article, we will explore the data accessor and operators available in PostgreSQL for working
+    with JSON and JSONB data types.
+</p>
+<h3>JSON Data Accessor</h3>
+<p>
+    PostgreSQL provides a set of operators and functions to access and manipulate JSON data. To access a JSON object or
+    array like following
+</p>
+{% highlight json %}
+{
+  "name": "John",
+  "age": 30,
+  "address": {
+    "city": "New York",
+    "state": "NY"
+  },
+  "phone": [
+    {
+      "type": "home",
+      "number": "212-555-1234"
+    },
+    {
+      "type": "work",
+      "number": "646-555-4567"
+    }
+  ]
+}
+{% endhighlight %}
+<p>
+    we use following operators.
+</p>
+| Operator | Description | Example | Returns | Return Type |
+| --- | --- | --- | --- | --- |
+| -> int | Get array element 1 | data->'phone'->1 | {"type": "work", "number": "646-555-4567"} | JSON |
+| -> text | Get object key name | data->'name' | "John" | JSON |
+| #> text[] | Get keypath phone,1,number | data#>'{phone,1,number}' | "646-555-4567" | JSON |
+| ->> int | Get array element 1 | data->'phone'->>1 | {"type": "work", "number": "646-555-4567"} | TEXT |
+| ->> text | Get object key name | data->>'name' | John | TEXT |
+| #> text[] | Get keypath phone,1,number | data#>>'{phone,1,number}' | 646-555-4567 | TEXT |
+
