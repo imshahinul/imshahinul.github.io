@@ -18,20 +18,20 @@ background: '/img/posts/json-ops.png'
 </p>
 {% highlight json %}
 {
-  "name": "John",
+  "name": "Mamun",
   "age": 30,
   "address": {
-    "city": "New York",
-    "state": "NY"
+    "city": "Dhaka",
+    "country": "BD"
   },
   "phone": [
     {
       "type": "home",
-      "number": "212-555-1234"
+      "number": "01917111111"
     },
     {
       "type": "work",
-      "number": "646-555-4567"
+      "number": "01817111111"
     }
   ]
 }
@@ -39,7 +39,50 @@ background: '/img/posts/json-ops.png'
 <p>
     we use following operators.
 </p>
-<table border="1">
+
+<h3>`->` operator:</h3>
+<p>It is used to get the value of an element from a JSON array or a key-value pair from a JSON object. The syntax is as follows:</p>
+
+{% highlight sql %}
+select data->index from my_table
+select data->'key_name' from my_table
+{% endhighlight %}
+
+<p>The first syntax retrieves the value of the element at the given index in the JSON array 'data'. The second syntax retrieves the value of the given key in the JSON object 'data'.</p>
+
+<h3>`#>` operator:</h3>
+<p>It is used to get the value of a nested key in a JSON object. The syntax is as follows:</p>
+
+{% highlight sql %}
+select data#>'{key1, key2, ...}' from my_table
+{% endhighlight %}
+
+<p>This retrieves the value of a nested key in the JSON object 'data'. For example, if the JSON object has a structure like {'a': {'b': {'c': 1}}}, then data#>'{a, b, c}' will return 1.</p>
+
+
+<h3>`->>` operator:</h3>
+<p>It is used to get the value of an element from a JSON array or a key-value pair from a JSON object as text. The syntax is as follows:</p>
+
+{% highlight sql %}
+select data->>index from my_table
+select data->>'key_name' from my_table
+{% endhighlight %}
+
+<p>The first syntax retrieves the value of the element at the given index in the JSON array 'data' as text. The second syntax retrieves the value of the given key in the JSON object 'data' as text.</p>
+
+
+<h3>`#>>` operator:</h3>
+<p>It is used to get the value of a nested key in a JSON object as text. The syntax is as follows:</p>
+
+{% highlight sql %}
+select data#>>'{key1, key2, ...}' from my_table
+{% endhighlight %}
+
+<p>This retrieves the value of a nested key in the JSON object 'data' as text. For example, if the JSON object has a structure like {'a': {'b': {'c': 'hello'}}}, then data#>>'{a, b, c}' will return 'hello'.</p>
+
+
+<table border="1" style="font-size: 14px;
+    text-align: center;">
     <thead>
     <tr>
         <th>Operator</th>
@@ -51,48 +94,147 @@ background: '/img/posts/json-ops.png'
     </thead>
     <tbody>
     <tr>
-        <td>-&gt; int</td>
+        <td>-> int</td>
         <td>Get array element 1</td>
-        <td>data-&gt;&#39;phone&#39;-&gt;1</td>
-        <td>{&quot;type&quot;: &quot;work&quot;, &quot;number&quot;: &quot;646-555-4567&quot;}</td>
+        <td>data->'phone'->1</td>
+        <td>{"type": "work", "number": "01817111111"}</td>
         <td>JSON</td>
     </tr>
     <tr>
-        <td>-&gt; text</td>
+        <td>-> text</td>
         <td>Get object key name</td>
-        <td>data-&gt;&#39;name&#39;</td>
-        <td>&quot;John&quot;</td>
+        <td>data->'name'</td>
+        <td>"Mamun"</td>
         <td>JSON</td>
     </tr>
     <tr>
-        <td>#&gt; text[]</td>
+        <td>#> text[]</td>
         <td>Get keypath phone,1,number</td>
-        <td>data#&gt;&#39;{phone,1,number}&#39;</td>
-        <td>&quot;646-555-4567&quot;</td>
+        <td>data#>'{phone,1,number}'</td>
+        <td>"01817111111"</td>
         <td>JSON</td>
     </tr>
     <tr>
-        <td>-&gt;&gt; int</td>
+        <td>->> int</td>
         <td>Get array element 1</td>
-        <td>data-&gt;&#39;phone&#39;-&gt;&gt;1</td>
-        <td>{&quot;type&quot;: &quot;work&quot;, &quot;number&quot;: &quot;646-555-4567&quot;}</td>
+        <td>data->'phone'->>1</td>
+        <td>{"type": "work", "number": "01817111111"}</td>
         <td>TEXT</td>
     </tr>
     <tr>
-        <td>-&gt;&gt; text</td>
+        <td>->> text</td>
         <td>Get object key name</td>
-        <td>data-&gt;&gt;&#39;name&#39;</td>
-        <td>John</td>
+        <td>data->>'name'</td>
+        <td>Mamun</td>
         <td>TEXT</td>
     </tr>
     <tr>
-        <td>#&gt; text[]</td>
+        <td>#>> text[]</td>
         <td>Get keypath phone,1,number</td>
-        <td>data#&gt;&gt;&#39;{phone,1,number}&#39;</td>
-        <td>646-555-4567</td>
+        <td>data#>>'{phone,1,number}'	</td>
+        <td>01817111111</td>
         <td>TEXT</td>
     </tr>
     </tbody>
 </table>
+
+<p>Now lets look into the boolean operators</p>
+
+
+<h3>`?` operator:</h3>
+<p>It is used to check if a key exists in a JSON object or not. If the key exists, it returns true otherwise false. The syntax is as follows:</p>
+
+{% highlight sql %}
+select data ? 'name' from my_table
+{% endhighlight %}
+
+<p>This will return true if the 'name' exists in the JSON object 'data'.</p>
+
+
+<h3>`?|` operator:</h3>
+<p>It is used to check if any of the given keys exists in a JSON object or not. If any of the keys exists, it returns true otherwise false. The syntax is as follows:</p>
+
+{% highlight sql %}
+select data ?| array['name','sex'] from my_table
+{% endhighlight %}
+
+<p>This will return true if any of the keys (name, sex, ...) exists in the JSON object 'data'.</p>
+
+
+<h3>`?&` operator:</h3>
+<p>It is used to check if all of the given keys exist in a JSON object or not. If all the keys exist, it returns true otherwise false. The syntax is as follows:</p>
+
+{% highlight sql %}
+select data ?& array['name','sex'] from my_table
+{% endhighlight %}
+
+<p>This will return true if all of the keys (name, sex, ...) exist in the JSON object 'data'.</p>
+
+
+<h3>`@>` operator:</h3>
+<p>It is used to check if a JSON object contains another JSON object or not. If the left-hand side JSON object contains all the key-value pairs of the right-hand side JSON object, it returns true otherwise false. The syntax is as follows:</p>
+
+{% highlight sql %}
+select data @> '{"name":"Mamun"}'::jsonb from my_table
+{% endhighlight %}
+
+<p>This will return true if the JSON object 'data' contains all the key-value pairs of the JSON object on the right-hand side.</p>
+
+
+<h3>`<@` operator:</h3>
+<p>It is used to check if a JSON object is contained in another JSON object or not. If the right-hand side JSON object contains all the key-value pairs of the left-hand side JSON object, it returns true otherwise false. The syntax is as follows:</p>
+
+{% highlight sql %}
+select data <@ '{"name":"Mamun","age":30}'::jsonb from my_table
+{% endhighlight %}
+
+<p>This will return true if the JSON object on the right-hand side contains all the key-value pairs of the JSON object 'data'.</p>
+
+<table border="1" style="font-size: 14px;
+    text-align: center;">
+    <thead>
+    <tr>
+        <th>Operator</th>
+        <th>Description</th>
+        <th>Example</th>
+        <th>Returns</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>? str</td>
+        <td>Does data have key name?</td>
+        <td>data ? 'name'</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>?| text[]</td>
+        <td>Does data have name or sex?</td>
+        <td>data ?| array['name','sex']</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>?& text[]</td>
+        <td>Does data have name and sex?</td>
+        <td>data ?& array['name','sex']</td>
+        <td>false</td>
+    </tr>
+    <tr>
+        <td>@> jsonb</td>
+        <td>Does left include right?</td>
+        <td>data @> '{"name":"Mamun"}'::jsonb</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td><@ jsonb</td>
+        <td>Does right include left?</td>
+        <td>data <@ '{"name":"Mamun","age":30}'::jsonb</td>
+        <td>false</td>
+    </tr>
+    </tbody>
+</table>
+
+
+
 
 
