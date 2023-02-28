@@ -1,0 +1,123 @@
+---
+layout: post
+title: "Solution of Leetcode problem 427. Construct Quad Tree"
+subtitle: "The difficulty level of this problem on Leetcode has been classified as medium and it has been labeled as a problem related to Array, Divide and Conquer, Tree, and Matrix. Our approach to solve this problem will involve utilizing the depth first search technique."
+date: 2023-02-27 20:18:14 -0500
+background: '/img/posts/e2tree.png'
+---
+<p>This problem asks us to construct a QuadTree from a given 2D grid. A QuadTree is a tree data structure in which each
+    node has up to four children, representing four quadrants of the coordinate system.</p>
+
+{% highlight python %}
+
+# Definition for a QuadTree node.
+class Node:
+    def __init__(self, val, isLeaf, topLeft, topRight, bottomLeft, bottomRight):
+        self.val = val
+        self.isLeaf = isLeaf
+        self.topLeft = topLeft
+        self.topRight = topRight
+        self.bottomLeft = bottomLeft
+        self.bottomRight = bottomRight
+
+{% endhighlight %}
+
+<p>The given solution uses depth-first search (DFS) to construct the QuadTree recursively. The DFS function sub() takes
+    four arguments p, q, r, and s, which represent the coordinates of the sub-grid that we want to construct a QuadTree
+    for. Initially, the function is called with the entire grid, i.e., sub(0, 0, len(grid) - 1, len(grid[0]) - 1).</p>
+
+{% highlight python %}
+
+class Solution:
+    def construct(self, grid: List[List[int]]) -> 'Node':
+        def sub(p, q, r, s):
+            ..
+            ..
+
+        sub(0, 0, len(grid) - 1, len(grid[0]) - 1)
+
+{% endhighlight %}
+
+<p>The function first checks if the sub-grid has only one element by checking if bz + bo == 1, where bz is a flag
+    indicating if there are any 0's in the sub-grid and bo is a flag indicating if there are any 1's in the sub-grid. If
+    there is only one element, it creates a leaf node with Node(grid[p][q], True) and returns it.</p>
+
+{% highlight python %}
+        ..
+        ..
+        def sub(p, q, r, s):
+            bz = bo = 0
+            for i in range(p, r + 1):
+                for j in range(q, s + 1):
+                    if grid[i][j] == 0:
+                        bz = 1
+                    else:
+                        bo = 1
+            isLeaf = bz + bo == 1
+            val = isLeaf and bo
+            if isLeaf:
+                return Node(grid[p][q], True)
+        ..
+        ..
+{% endhighlight %}
+
+<p>If the sub-grid has more than one element, it creates a non-leaf node with Node(val, isLeaf, topLeft, topRight,
+    bottomLeft, bottomRight), where val is the value of the node (1 if there are any 1's in the sub-grid, 0 otherwise)
+    and isLeaf is False. It then recursively constructs the four sub-grids for the four quadrants of the sub-grid using
+    the same sub() function.</p>
+
+{% highlight python %}
+            ..
+            ..
+            topLeft = sub(p, q, (p + r) // 2, (q + s) // 2)
+            topRight = sub(p, (q + s) // 2 + 1, (p + r) // 2, s)
+            bottomLeft = sub((p + r) // 2 + 1, q, r, (q + s) // 2)
+            bottomRight = sub((p + r) // 2 + 1, (q + s) // 2 + 1, r, s)
+            ..
+            ..
+{% endhighlight %}
+
+<p>The topLeft, topRight, bottomLeft, and bottomRight nodes are constructed by calling the sub() function with the
+    appropriate sub-grid coordinates. For example, topLeft represents the top-left quadrant of the sub-grid, so it is
+    constructed by calling sub(p, q, (p + r) // 2, (q + s) // 2).</p>
+
+<p>Finally, the function returns the non-leaf node that it has constructed.</p>
+
+{% highlight python %}
+            ..
+            ..
+            return Node(val, isLeaf, topLeft, topRight, bottomLeft, bottomRight)
+            ..
+            ..
+{% endhighlight %}
+
+<p>So, the complete solution looks like following:</p>
+
+{% highlight python %}
+
+class Solution:
+    def construct(self, grid: List[List[int]]) -> 'Node':
+        def sub(p, q, r, s):
+            bz = bo = 0
+            for i in range(p, r + 1):
+                for j in range(q, s + 1):
+                    if grid[i][j] == 0:
+                        bz = 1
+                    else:
+                        bo = 1
+            isLeaf = bz + bo == 1
+            val = isLeaf and bo
+            if isLeaf:
+                return Node(grid[p][q], True)
+            topLeft = sub(p, q, (p + r) // 2, (q + s) // 2)
+            topRight = sub(p, (q + s) // 2 + 1, (p + r) // 2, s)
+            bottomLeft = sub((p + r) // 2 + 1, q, r, (q + s) // 2)
+            bottomRight = sub((p + r) // 2 + 1, (q + s) // 2 + 1, r, s)
+            return Node(val, isLeaf, topLeft, topRight, bottomLeft, bottomRight)
+
+        return sub(0, 0, len(grid) - 1, len(grid[0]) - 1)
+
+{% endhighlight %}
+
+<p>The overall time complexity of this solution is O(n^2) because it visits each element in the grid exactly once. The
+    space complexity is O(n^2) as well because it constructs a QuadTree of size n^2.</p>
