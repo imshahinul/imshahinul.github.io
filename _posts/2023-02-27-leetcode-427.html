@@ -5,7 +5,7 @@ subtitle: "The difficulty level of this problem on Leetcode has been classified 
 date: 2023-02-27 20:18:14 -0500
 background: '/img/posts/e2tree.png'
 ---
-<p>This problem asks us to construct a QuadTree from a given 2D grid. A QuadTree is a tree data structure in which each
+<p>This <a href="https://leetcode.com/problems/construct-quad-tree/">problem</a> asks us to construct a QuadTree from a given 2D grid. A QuadTree is a tree data structure in which each
     node has up to four children, representing four quadrants of the coordinate system.</p>
 
 {% highlight python %}
@@ -31,8 +31,8 @@ class Node:
 class Solution:
     def construct(self, grid: List[List[int]]) -> 'Node':
         def sub(p, q, r, s):
-            ..
-            ..
+            ...
+            ...
 
         sub(0, 0, len(grid) - 1, len(grid[0]) - 1)
 
@@ -43,22 +43,22 @@ class Solution:
     there is only one element, it creates a leaf node with Node(grid[p][q], True) and returns it.</p>
 
 {% highlight python %}
-        ..
-        ..
-        def sub(p, q, r, s):
-            bz = bo = 0
-            for i in range(p, r + 1):
-                for j in range(q, s + 1):
-                    if grid[i][j] == 0:
-                        bz = 1
-                    else:
-                        bo = 1
-            isLeaf = bz + bo == 1
-            val = isLeaf and bo
-            if isLeaf:
-                return Node(grid[p][q], True)
-        ..
-        ..
+    ...
+    ...
+    def sub(p, q, r, s):
+        bz = bo = 0
+        for i in range(p, r + 1):
+            for j in range(q, s + 1):
+                if grid[i][j] == 0:
+                    bz = 1
+                else:
+                    bo = 1
+        isLeaf = bz + bo == 1
+        val = isLeaf and bo
+        if isLeaf:
+            return Node(grid[p][q], True)
+    ...
+    ...
 {% endhighlight %}
 
 <p>If the sub-grid has more than one element, it creates a non-leaf node with Node(val, isLeaf, topLeft, topRight,
@@ -67,14 +67,14 @@ class Solution:
     the same sub() function.</p>
 
 {% highlight python %}
-            ..
-            ..
-            topLeft = sub(p, q, (p + r) // 2, (q + s) // 2)
-            topRight = sub(p, (q + s) // 2 + 1, (p + r) // 2, s)
-            bottomLeft = sub((p + r) // 2 + 1, q, r, (q + s) // 2)
-            bottomRight = sub((p + r) // 2 + 1, (q + s) // 2 + 1, r, s)
-            ..
-            ..
+    ...
+    ...
+    topLeft = sub(p, q, (p + r) // 2, (q + s) // 2)
+    topRight = sub(p, (q + s) // 2 + 1, (p + r) // 2, s)
+    bottomLeft = sub((p + r) // 2 + 1, q, r, (q + s) // 2)
+    bottomRight = sub((p + r) // 2 + 1, (q + s) // 2 + 1, r, s)
+    ...
+    ...
 {% endhighlight %}
 
 <p>The topLeft, topRight, bottomLeft, and bottomRight nodes are constructed by calling the sub() function with the
@@ -84,11 +84,11 @@ class Solution:
 <p>Finally, the function returns the non-leaf node that it has constructed.</p>
 
 {% highlight python %}
-            ..
-            ..
-            return Node(val, isLeaf, topLeft, topRight, bottomLeft, bottomRight)
-            ..
-            ..
+    ...
+    ...
+    return Node(val, isLeaf, topLeft, topRight, bottomLeft, bottomRight)
+    ...
+    ...
 {% endhighlight %}
 
 <p>So, the complete solution looks like following:</p>
