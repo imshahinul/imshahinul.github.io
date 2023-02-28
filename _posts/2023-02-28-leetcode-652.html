@@ -1,0 +1,61 @@
+---
+layout: post
+title: "Solution of Leetcode problem 652. Find Duplicate Subtrees"
+subtitle: "This Leetcode problem has been categorized as a medium-level problem and has been classified as relating to Hash Table, Tree, Depth-First Search, and Binary Tree. To solve this problem, we will use the postorder traversal method."
+date: 2023-02-28 17:03:44 -0500
+background: '/img/posts/e1.jpeg'
+---
+<p>The LeetCode <a href="https://leetcode.com/problems/find-duplicate-subtrees/">problem 652</a> asks to find all duplicate subtrees in a binary tree. A subtree is any node and all its
+    descendants. Two trees are considered duplicates if they have the same structure and same node values.</p>
+
+<p>Definition for a binary tree node is following:</p>
+
+{% highlight python %}
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+{% endhighlight %}
+
+<p>We are going to use postorder traversal to encode each subtree as a string and keeps track of the frequency of
+    each subtree using a counter. The encoding of each subtree is done by concatenating the node value with the
+    postorder traversal of its left and right subtrees, separated by a special character, such as "#".</p>
+
+<p>The postorder traversal visits the left subtree, then the right subtree, and finally the root. So, for each subtree,
+    the function recursively visits its left and right subtrees, and then concatenates their encoded values with the
+    node value to form the encoded string for the entire subtree.</p>
+
+<p>Once an encoded subtree is constructed, it is added to the counter, and if its frequency reaches 2, it means that
+    there is a duplicate subtree. In this case, the function appends the root of the subtree to the output list.</p>
+
+<p>Finally, the function returns the list of roots of all duplicate subtrees found.</p>
+
+<p>Overall, the time complexity of the solution is O(n^2), where n is the number of nodes in the tree, because the
+    encoding and counting of each subtree takes O(n) time, and there can be at most n subtrees in the tree. However, the
+    space complexity is O(n), which is used to store the encoded strings and the counter.</p>
+
+
+{% highlight python %}
+
+class Solution:
+    def findDuplicateSubtrees(self, root: Optional[TreeNode]) -> List[Optional[TreeNode]]:
+        out = []
+        count = Counter()
+
+        def postorder(root: Optional[TreeNode]) -> str:
+            if not root:
+                return ''
+
+            encoded = str(root.val) + '#' + postorder(root.left) + '#' + postorder(root.right)
+            count[encoded] += 1
+            if count[encoded] == 2:
+                out.append(root)
+            return encoded
+
+        postorder(root)
+        return out
+
+{% endhighlight %}
