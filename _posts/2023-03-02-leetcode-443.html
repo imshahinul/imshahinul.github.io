@@ -1,0 +1,89 @@
+---
+layout: post
+title: "Solution of Leetcode problem 443. String Compression"
+subtitle: "This Leetcode problem has been categorized as a medium-level problem and has been classified as relating to Two Pointer and String. To solve this problem, we will use the two pointer approach."
+date: 2023-03-02 14:12:11 -0500
+background: '/img/posts/string-compression-1280x720.png'
+---
+<p>The problem asks to compress the given list of characters in-place by replacing consecutive repeated characters with
+    their count. For example, the input list ["a", "a", "b", "b", "c", "c", "c"] should be compressed to ["a", "2", "b",
+    "2", "c", "3"] and the function should return the length of the compressed list.</p>
+
+<p>Lets implement a two-pointer approach to solve the problem. The variable l is used to keep track of
+    the start of a group of consecutive characters, and the variable m is used to find the end of the group. The
+    variable s keeps track of the current index where the compressed characters are being stored.</p>
+
+{% highlight python %}
+
+...
+l, s, n = 0, 0, len(chars)
+...
+
+{% endhighlight %}
+
+<p>The solution iterates through the characters using a while loop until l reaches the end of the list. It then finds
+    the end of the current group of consecutive characters using the inner while loop. It then stores the current
+    character at index l and increments s by 1.</p>
+
+{% highlight python %}
+
+...
+while l < n:
+    m = l + 1
+    while m < n and chars[m] == chars[l]:
+        m += 1
+    chars[s] = chars[l]
+    s += 1
+...
+
+{% endhighlight %}
+
+<p>If the length of the current group is greater than 1, it converts the count of consecutive characters to a string and
+    stores each digit in the compressed list, incrementing s after each digit.</p>
+
+{% highlight python %}
+
+...
+if m - l > 1:
+    cnt = str(m - l)
+    for c in cnt:
+        chars[s] = c
+        s += 1
+...
+
+{% endhighlight %}
+
+<p>Finally, the solution updates the value of l to the index where the next group of consecutive characters starts and
+    returns the value of s, which is the length of the compressed list.</p>
+
+{% highlight python %}
+
+...
+    l = m
+return s
+...
+
+{% endhighlight %}
+
+<p>So, the complete solution is like following:</p>
+
+{% highlight python %}
+
+class Solution:
+    def compress(self, chars: List[str]) -> int:
+        l, s, n = 0, 0, len(chars)
+        while l < n:
+            m = l + 1
+            while m < n and chars[m] == chars[l]:
+                m += 1
+            chars[s] = chars[l]
+            s += 1
+            if m - l > 1:
+                cnt = str(m - l)
+                for c in cnt:
+                    chars[s] = c
+                    s += 1
+            l = m
+        return s
+
+{% endhighlight %}
