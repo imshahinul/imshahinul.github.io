@@ -1,0 +1,47 @@
+---
+layout: post
+title: "Solution of Leetcode problem 2444. Count Subarrays With Fixed Bounds"
+subtitle: "This Leetcode problem has been categorized as a hard-level problem and has been classified as relating to Array, Queue, Sliding Window and Monotonic Queue. To solve this problem, we will use the sliding window approach."
+date: 2023-03-04 00:03:19 -0500
+background: '/img/posts/2444leetcode.png'
+---
+<p>The problem requires us to find the number of subarrays in an array where the minimum element is at least minK and
+    the maximum element is at most maxK.
+    To solve the problem, I used a sliding window approach.</p>
+
+<p>I initialized three variables, lowest, highest, and inbetween, to -1. The lowest variable kept track of the last
+    index where the minimum value was seen, the highest variable tracked the last index where the maximum value was
+    seen, and the inbetween variable tracked the last index where a value outside the range of minK to maxK was
+    seen.</p>
+
+<p>Then, I iterated through the array and updated these variables based on the current element's value. If the current
+    element was outside the range of minK to maxK, I updated the inbetween variable. If the current element was equal to
+    minK, I updated the lowest variable, and if it was equal to maxK, I updated the highest variable.</p>
+
+<p>Finally, for each index, I calculated the number of subarrays that end at that index and have a minimum value of at
+    least minK and a maximum value of at most maxK. I did so by taking the minimum of lowest and highest and subtracting
+    inbetween from it. If the result was greater than or equal to zero, I added it to the out variable, which
+    represented the total number of subarrays that meet the criteria.</p>
+
+<p>Time Complexity of this solution is O(n), where n is the length of the input array nums. This is because the
+    algorithm iterates through the array once and performs a constant number of operations at each index.</p>
+
+<p>Space complexity of this solution is O(1), as it only uses a constant amount of extra space to store the three
+    variables lowest, highest, and inbetween. The space used by the input array nums is not considered extra space as it
+    is required by the problem statement. Therefore, the solution has a space complexity that is constant with respect
+    to the size of the input array.</p>
+
+{% highlight python %}
+class Solution:
+    def countSubarrays(self, nums: List[int], minK: int, maxK: int) -> int:
+        out, lowest, highest, inbetween = 0, -1, -1, -1
+        for idx, num in enumerate(nums):
+            if num < minK or num > maxK:
+                inbetween = idx
+            if num == minK:
+                lowest = idx
+            if num == maxK:
+                highest = idx
+            out += max(0, min(lowest, highest) - inbetween)
+        return out
+{% endhighlight %}
