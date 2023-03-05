@@ -1,0 +1,140 @@
+---
+layout: post
+title: "Solution of Leetcode problem 1345. Jump Game IV"
+subtitle: "The problem on Leetcode has been classified as hard-level and is categorized under Array, Hash Table, and Breadth-First Search. We will be utilizing the breadth-first search approach to solve this problem."
+date: 2023-03-05 15:23:12 -0500
+background: '/img/posts/leetcode-1345.png'
+---
+<p>LeetCode problem 1345 is about finding the minimum number of jumps required to reach the end of an array, given that
+    you can only jump to adjacent elements or elements with the same value as the current element.
+    Let's solve this problem using a breadth-first search (BFS) algorithm to find the minimum number of jumps required.
+    Let's
+    go through each line of the code to understand how it works:</p>
+<p>Let's create a dictionary g using defaultdict that will store the indices of each element in the array arr. For each
+    element a in arr, we append its index idx to the list of indices in g[a]. This will help us later when we want to
+    explore adjacent elements with the same value as the current element.</p>
+
+{% highlight python %}
+
+g = defaultdict(list)
+for idx, a in enumerate(arr):
+    g[a].append(idx)
+
+{% endhighlight %}
+
+<p>Then we initialize a deque dq with a tuple (0, 0), where the first element represents the current index and the
+    second element represents the current distance. We also initialize a set traversed with the index 0, which indicates
+    that we have already visited the first element of the array.</p>
+
+{% highlight python %}
+
+dq = deque([(0, 0)])
+traversed = {0}
+
+{% endhighlight %}
+
+<p>
+    In following while loop, we use BFS to explore the adjacent elements and their indices. We pop the leftmost element
+    from
+    the deque dq, which gives us the current index idx and the current distance dis. If the current index is equal to
+    the last index of the array, we have reached the end, so we return the current distance.
+</p>
+
+{% highlight python %}
+
+while dq:
+    idx, dis = dq.popleft()
+    if idx == len(arr) - 1:
+        return dis
+
+{% endhighlight %}
+
+
+<p>
+    Then we get the value of the current element a using the current index idx. We increment the distance dis by 1 since
+    we have taken one more step. We then iterate over the list of indices in g[a], which contains the indices of all
+    elements with the same value as a. For each index j that has not been traversed before, we add it to the traversed
+    set and append a new tuple (j, dis) to the deque dq. We also remove the key a from the dictionary g since we have
+    already explored all its indices.
+</p>
+
+{% highlight python %}
+
+a = arr[idx]
+dis += 1
+for j in g[a]:
+    if j not in traversed:
+        traversed.add(j)
+        dq.append((j, dis))
+del g[a]
+
+{% endhighlight %}
+
+<p>Finally, we check if there are any adjacent elements that have not been traversed before, and if so, we add their
+    indices to the traversed set and append new tuples (idx+1, dis) and (idx-1, dis) to the deque dq.</p>
+
+{% highlight python %}
+
+if idx + 1 < len(arr) and (idx + 1) not in traversed:
+    traversed.add(idx + 1)
+    dq.append((idx + 1, dis))
+if idx - 1 >= 0 and (idx - 1) not in traversed:
+    traversed.add(idx - 1)
+    dq.append((idx - 1, dis))
+
+{% endhighlight %}
+
+<p>In summary, this solution uses BFS to explore the adjacent elements of the array and their indices, keeping track of
+    the distance traveled so far. By doing so, it can find the minimum number of jumps required to reach the end. So the
+    complete solution is like follows</p>
+
+
+{% highlight python %}
+
+class Solution:
+    def minJumps(self, arr: List[int]) -> int:
+        g = defaultdict(list)
+        for idx, a in enumerate(arr):
+            g[a].append(idx)
+        dq = deque([(0, 0)])
+        traversed = {0}
+        while dq:
+            idx, dis = dq.popleft()
+            if idx == len(arr) - 1:
+                return dis
+            a = arr[idx]
+            dis += 1
+            for j in g[a]:
+                if j not in traversed:
+                    traversed.add(j)
+                    dq.append((j, dis))
+            del g[a]
+            if idx + 1 < len(arr) and (idx + 1) not in traversed:
+                traversed.add(idx + 1)
+                dq.append((idx + 1, dis))
+            if idx - 1 >= 0 and (idx - 1) not in traversed:
+                traversed.add(idx - 1)
+                dq.append((idx - 1, dis))
+
+{% endhighlight %}
+
+<h4>Time Complexity</h4>
+<ul>
+    <li>Building the dictionary g takes O(n) time, where n is the length of the input array arr.</li>
+    <li>The BFS algorithm takes O(n) time since it visits each index of the array at most once.</li>
+    <li>The loop that checks for adjacent elements also takes O(n) time since it can potentially visit each index of the
+        array.
+    </li>
+    <li>Overall, the time complexity of the solution is O(n).
+    <li>
+</ul>
+
+<h4>Space Complexity</h4>
+<ul>
+    <li>The dictionary g can take up to O(n) space if all elements in arr have distinct values.</li>
+    <li>The deque dq and set traversed can also take up to O(n) space if all indices in arr need to be stored.</li>
+    <li>Therefore, the space complexity of the solution is O(n).</li>
+</ul>
+
+<p>So, the solution has a time complexity of O(n) and a space complexity of O(n), which is optimal for
+    this problem.</p>
