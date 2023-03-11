@@ -1,0 +1,100 @@
+---
+layout: post
+title: "Understanding cycle sort and implement this technique to solve related Leetcode problems"
+subtitle: "Cyclic sort is a simple and efficient sorting algorithm that can be used to sort arrays containing elements from a known range. This algorithm is particularly useful when the array has elements that are known to be in a small range, such as when the array contains integers between 1 and n, where n is the length of the array."
+date: 2023-03-10 18:55:14 -0500
+background: '/img/posts/Cyclesort.png'
+---
+<p>The basic idea behind cycle sort is to iterate over the array and place each element in its correct position. The
+    algorithm works by repeatedly iterating over the array and swapping elements until each element is in its correct
+    position. The algorithm starts by placing the first element in its correct position, which is at index 0. It then
+    moves to the next element and places it in its correct position, which is at index 1. This process is repeated until
+    all elements are in their correct positions.</p>
+
+<p>To implement cycle sort, we start by iterating over the array and swapping elements until each element is in its
+    correct position. The algorithm works as follows:</p>
+<ul>
+    <li>Start by initializing a variable called i to 0.
+    <li>
+
+    <li>While i is less than the length of the array, do the following:</li>
+    <ul>
+        <li>Check if the element at index i is in its correct position. If it is, increment i and continue to the next
+            iteration of the loop.
+        </li>
+
+        <li>If the element at index i is not in its correct position, swap it with the element at the index where it
+            belongs. For example, if the element at index i should be at index j, swap the elements at indices i and j.
+        </li>
+    </ul>
+    <li>Once all elements are in their correct positions, the array is sorted.</li>
+
+</ul>
+<p>Cyclic sort has a time complexity of O(n), where n is the length of the array. This is because each element is
+    swapped at most once, and the number of swaps is at most n-1. In addition, the algorithm requires only a constant
+    amount of additional memory, making it very space-efficient.</p>
+
+<p>In conclusion, cycle sort is a simple and efficient sorting algorithm that can be used to sort arrays containing
+    elements from a known range. It is particularly useful when the array contains integers between 1 and n, where n is
+    the length of the array. It has a time complexity of O(n) and requires only a constant amount of additional memory,
+    making it a space-efficient algorithm.</p>
+
+
+<h3>Implementation</h3>
+
+{% highlight python %}
+
+def cycle_sort(arr):
+    """
+    Sorts the given array in ascending order using the cyclic sort algorithm.
+
+    Parameters:
+    arr (list): The unsorted array.
+
+    Returns:
+    list: The sorted array.
+    """
+    n = len(arr)
+
+    # Traverse the array and move each element to its correct position.
+    for i in range(n - 1):
+        # Find the correct position of the current element.
+        pos = i
+        for j in range(i + 1, n):
+            if arr[j] < arr[i]:
+                pos += 1
+
+        # If the current element is already at its correct position, move on to the next element.
+        if pos == i:
+            continue
+
+        # Otherwise, swap the current element with the element at its correct position.
+        while arr[i] == arr[pos]:
+            pos += 1
+        arr[i], arr[pos] = arr[pos], arr[i]
+
+        # Move the element at the correct position to its own correct position.
+        while pos != i:
+            pos = i
+            for j in range(i + 1, n):
+                if arr[j] < arr[i]:
+                    pos += 1
+            while arr[i] == arr[pos]:
+                pos += 1
+            arr[i], arr[pos] = arr[pos], arr[i]
+
+    return arr
+
+{% endhighlight %}
+
+<p>The cycle_sort function takes an unsorted array as its parameter and returns the sorted array. The algorithm works by
+    traversing the array and moving each element to its correct position. To find the correct position of an element,
+    the algorithm searches for the smallest element that is greater than the current element. Once the correct position
+    is found, the current element is swapped with the element at its correct position. The algorithm then moves the
+    element at the correct position to its own correct position. This process is repeated until all elements are in
+    their correct positions.</p>
+
+<p>The time complexity of cyclic sort is O(n^2) in the worst case, but it has a better best-case and average-case time
+    complexity of O(n). This makes it a good choice when the array contains elements that are mostly in their correct
+    positions. Cyclic sort is also an in-place sorting algorithm, meaning it requires only a constant amount of
+    additional memory.</p>
