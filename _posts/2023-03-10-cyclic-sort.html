@@ -45,45 +45,45 @@ background: '/img/posts/Cyclesort.png'
 {% highlight python %}
 
 def cycle_sort(arr):
-    """
-    Sorts the given array in ascending order using the cyclic sort algorithm.
+"""
+Sorts the given array in ascending order using the cyclic sort algorithm.
 
-    Parameters:
-    arr (list): The unsorted array.
+Parameters:
+arr (list): The unsorted array.
 
-    Returns:
-    list: The sorted array.
-    """
-    n = len(arr)
+Returns:
+list: The sorted array.
+"""
+n = len(arr)
 
-    # Traverse the array and move each element to its correct position.
-    for i in range(n - 1):
-        # Find the correct position of the current element.
-        pos = i
-        for j in range(i + 1, n):
-            if arr[j] < arr[i]:
-                pos += 1
+# Traverse the array and move each element to its correct position.
+for i in range(n - 1):
+# Find the correct position of the current element.
+pos = i
+for j in range(i + 1, n):
+if arr[j] < arr[i]:
+pos += 1
 
-        # If the current element is already at its correct position, move on to the next element.
-        if pos == i:
-            continue
+# If the current element is already at its correct position, move on to the next element.
+if pos == i:
+continue
 
-        # Otherwise, swap the current element with the element at its correct position.
-        while arr[i] == arr[pos]:
-            pos += 1
-        arr[i], arr[pos] = arr[pos], arr[i]
+# Otherwise, swap the current element with the element at its correct position.
+while arr[i] == arr[pos]:
+pos += 1
+arr[i], arr[pos] = arr[pos], arr[i]
 
-        # Move the element at the correct position to its own correct position.
-        while pos != i:
-            pos = i
-            for j in range(i + 1, n):
-                if arr[j] < arr[i]:
-                    pos += 1
-            while arr[i] == arr[pos]:
-                pos += 1
-            arr[i], arr[pos] = arr[pos], arr[i]
+# Move the element at the correct position to its own correct position.
+while pos != i:
+pos = i
+for j in range(i + 1, n):
+if arr[j] < arr[i]:
+pos += 1
+while arr[i] == arr[pos]:
+pos += 1
+arr[i], arr[pos] = arr[pos], arr[i]
 
-    return arr
+return arr
 
 {% endhighlight %}
 
@@ -98,3 +98,43 @@ def cycle_sort(arr):
     complexity of O(n). This makes it a good choice when the array contains elements that are mostly in their correct
     positions. Cyclic sort is also an in-place sorting algorithm, meaning it requires only a constant amount of
     additional memory.</p>
+
+<p>Now let's look at some Leetcode problems which can be solved using cycle sort technique.</p>
+
+<h3><a href="https://leetcode.com/problems/missing-number/">268. Missing Number</a></h3>
+
+<p>This problem requires us finding the missing number from an array of n distinct numbers in the range of 0 to n.</p>
+
+<p>First iterate over the input array nums using a while loop and swap the current number with the number at its correct
+    position until all the numbers are at their correct position. The correct position of the number i is at the index
+    i, so the correct variable is assigned to nums[i]. If the current number is less than n and not already at its
+    correct position, it is swapped with the number at its correct position.</p>
+
+<p>Once all the numbers are at their correct position, iterate over the array again to find the first index i where
+    nums[i] is not equal to i. This index i is the missing number as all other numbers are at their correct position,
+    and this number is not present in the array.</p>
+
+<p>If all the numbers are in their correct position, the missing number is n, which is returned in the last line of the
+    function.</p>
+
+<p>Overall, the solution has a time complexity of O(n) and a space complexity of O(1) as it only uses a constant amount
+    of extra space for the variables i and correct.</p>
+
+{% highlight python %}
+
+class Solution:
+    def missingNumber(self, nums: List[int]) -> int:
+        i, n = 0, len(nums)
+        while i < n:
+            correct = nums[i]
+            if nums[i] < n and nums[i] != nums[correct]:
+                nums[i], nums[correct] = nums[correct], nums[i]
+            else:
+                i += 1
+
+        for i in range(n):
+            if nums[i] != i:
+                return i
+        return n
+
+{% endhighlight %}
