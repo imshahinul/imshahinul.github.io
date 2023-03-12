@@ -45,45 +45,45 @@ background: '/img/posts/Cyclesort.png'
 {% highlight python %}
 
 def cycle_sort(arr):
-"""
-Sorts the given array in ascending order using the cyclic sort algorithm.
+    """
+    Sorts the given array in ascending order using the cyclic sort algorithm.
 
-Parameters:
-arr (list): The unsorted array.
+    Parameters:
+    arr (list): The unsorted array.
 
-Returns:
-list: The sorted array.
-"""
-n = len(arr)
+    Returns:
+    list: The sorted array.
+    """
+    n = len(arr)
 
-# Traverse the array and move each element to its correct position.
-for i in range(n - 1):
-# Find the correct position of the current element.
-pos = i
-for j in range(i + 1, n):
-if arr[j] < arr[i]:
-pos += 1
+    # Traverse the array and move each element to its correct position.
+    for i in range(n - 1):
+        # Find the correct position of the current element.
+        pos = i
+        for j in range(i + 1, n):
+            if arr[j] < arr[i]:
+                pos += 1
 
-# If the current element is already at its correct position, move on to the next element.
-if pos == i:
-continue
+        # If the current element is already at its correct position, move on to the next element.
+        if pos == i:
+            continue
 
-# Otherwise, swap the current element with the element at its correct position.
-while arr[i] == arr[pos]:
-pos += 1
-arr[i], arr[pos] = arr[pos], arr[i]
+        # Otherwise, swap the current element with the element at its correct position.
+        while arr[i] == arr[pos]:
+            pos += 1
+        arr[i], arr[pos] = arr[pos], arr[i]
 
-# Move the element at the correct position to its own correct position.
-while pos != i:
-pos = i
-for j in range(i + 1, n):
-if arr[j] < arr[i]:
-pos += 1
-while arr[i] == arr[pos]:
-pos += 1
-arr[i], arr[pos] = arr[pos], arr[i]
+        # Move the element at the correct position to its own correct position.
+        while pos != i:
+            pos = i
+            for j in range(i + 1, n):
+                if arr[j] < arr[i]:
+                    pos += 1
+            while arr[i] == arr[pos]:
+                pos += 1
+            arr[i], arr[pos] = arr[pos], arr[i]
 
-return arr
+    return arr
 
 {% endhighlight %}
 
