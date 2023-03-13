@@ -147,25 +147,25 @@ class Solution:
 
 <p>Here's how the solution works:</p>
 <ul>
-    <li>I initialize a variable called i to 0.</li>
-    <li>While i is less than the length of the array, I check if the number at the current index i is in its correct
+    <li>Let's initialize a variable called i to 0.</li>
+    <li>While i is less than the length of the array, check if the number at the current index i is in its correct
         position by comparing it to the number at index nums[i]-1.
     </li>
-    <li>If the numbers are not the same, I swap the numbers at indices i and nums[i]-1 to place the number in its
+    <li>If the numbers are not the same, swap the numbers at indices i and nums[i]-1 to place the number in its
         correct position.
     </li>
-    <li>If the numbers are the same, I increment i to move to the next index.</li>
-    <li>I repeat steps 2-4 until I have iterated through the entire array.</li>
-    <li>I create an empty list called disappeared_nums to store the missing numbers.</li>
-    <li>I iterate through the array to find the indices that are empty (i.e., the numbers that are not in their correct
+    <li>If the numbers are the same, increment i to move to the next index.</li>
+    <li>Repeat steps 2-4 until iterated through the entire array.</li>
+    <li>Create an empty list called disappeared_nums to store the missing numbers.</li>
+    <li>Iterate through the array to find the indices that are empty (i.e., the numbers that are not in their correct
         positions).
     </li>
-    <li>For each index that is empty, I append the corresponding missing number to the disappeared_nums list by adding 1
+    <li>For each index that is empty, append the corresponding missing number to the disappeared_nums list by adding 1
         to the index.
     </li>
-    <li>I return the disappeared_nums list containing all the missing numbers in the array.</li>
+    <li>The return the disappeared_nums list containing all the missing numbers in the array.</li>
 </ul>
-<p>By using this approach, I can solve the problem with a time complexity of O(n) and use constant extra space.</p>
+<p>By using this approach, the problem can be solved with a time complexity of O(n) and use constant extra space.</p>
 
 
 {% highlight python %}
