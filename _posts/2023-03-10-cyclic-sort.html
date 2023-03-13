@@ -137,3 +137,53 @@ class Solution:
         return n
 
 {% endhighlight %}
+
+<h3><a href="https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/">448. Find All Numbers Disappeared
+    in an Array</a></h3>
+
+<p>The idea is to place each number in its correct position, such that if the array contains no missing numbers, the ith
+    number will be placed in the ith index. If there are missing numbers, some indices will be empty. By iterating
+    through the array, we can find the missing numbers in the array.</p>
+
+<p>Here's how the solution works:</p>
+<ul>
+    <li>I initialize a variable called i to 0.</li>
+    <li>While i is less than the length of the array, I check if the number at the current index i is in its correct
+        position by comparing it to the number at index nums[i]-1.
+    </li>
+    <li>If the numbers are not the same, I swap the numbers at indices i and nums[i]-1 to place the number in its
+        correct position.
+    </li>
+    <li>If the numbers are the same, I increment i to move to the next index.</li>
+    <li>I repeat steps 2-4 until I have iterated through the entire array.</li>
+    <li>I create an empty list called disappeared_nums to store the missing numbers.</li>
+    <li>I iterate through the array to find the indices that are empty (i.e., the numbers that are not in their correct
+        positions).
+    </li>
+    <li>For each index that is empty, I append the corresponding missing number to the disappeared_nums list by adding 1
+        to the index.
+    </li>
+    <li>I return the disappeared_nums list containing all the missing numbers in the array.</li>
+</ul>
+<p>By using this approach, I can solve the problem with a time complexity of O(n) and use constant extra space.</p>
+
+
+{% highlight python %}
+
+class Solution:
+    def findDisappearedNumbers(self, nums: List[int]) -> List[int]:
+        i = 0
+        while i < len(nums):
+            if nums[i] != nums[nums[i]-1]:
+                nums[nums[i]-1], nums[i] = nums[i], nums[nums[i]-1]
+            else:
+                i += 1
+
+        disappeared_nums = []
+        for i in range(len(nums)):
+            if nums[i] != i+1:
+                disappeared_nums.append(i+1)
+
+        return disappeared_nums
+
+{% endhighlight %}
