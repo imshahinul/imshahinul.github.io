@@ -213,3 +213,38 @@ class Solution:
 <p>For each element at index i, we check if it is in its correct position (i.e., if the element is i+1). If it is not in its correct position, we swap it with the element that should be at its position (i.e., the element at index nums[i]-1). We continue swapping until either we find the duplicate number or the element at the current position is already in its correct position.</p>
 
 <p>The time complexity of this algorithm is O(n), and the space complexity is O(1).</p>
+
+
+<h3><a href="https://leetcode.com/problems/find-all-duplicates-in-an-array/">442. Find All Duplicates in an Array
+</a></h3>
+
+<p>In this problem, we can use cyclic sort to place each number in its correct position, i.e., the number x should be at
+    index x - 1. After cyclic sort, all the duplicate numbers will be grouped together, and the first occurrence of each
+    duplicate number will be at its correct position. Therefore, we can iterate through the array and check which
+    numbers are not at their correct position, and these are the duplicate numbers.</p>
+<p>The code starts by initializing the length of the array n and an index i to 0. In each iteration of the while loop,
+    we get the correct index correct of the current number nums[i] by subtracting 1, i.e., correct = nums[i] - 1. If the current
+    number is not in its correct position, we swap it with the number at its correct position by setting nums[i] and
+    nums[correct] to each other's values. Otherwise, we increment i to move on to the next number.</p>
+<p>After the cyclic sort, we iterate through the array and append the duplicates to a list. We can identify the
+    duplicate numbers by checking which numbers are not at their correct position, i.e., nums[i] != i + 1.</p>
+<p>Finally, we return the list of duplicate numbers.</p>
+
+{% highlight python %}
+
+class Solution:
+    def findDuplicates(self, nums: List[int]) -> List[int]:
+        out, i, n = [], 0, len(nums)
+        while i < n:
+            correct = nums[i] - 1
+            if nums[i] != nums[correct]:
+                nums[i], nums[correct] = nums[correct], nums[i]
+            else:
+                i += 1
+
+        for i in range(n):
+            if nums[i] != i+1:
+                out.append(nums[i])
+        return out
+
+{% endhighlight %}
