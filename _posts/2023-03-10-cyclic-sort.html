@@ -187,3 +187,29 @@ class Solution:
         return disappeared_nums
 
 {% endhighlight %}
+
+
+<h3><a href="https://leetcode.com/problems/find-the-duplicate-number/">287. Find the Duplicate Number
+</a></h3>
+
+<p>To implement the cycle sort technique for this problem, we can iterate through the array and for each number, we swap it with the number that should be at its position. We keep swapping until we either encounter the duplicate number or the number at the current position is already in its correct position.</p>
+
+{% highlight python %}
+
+class Solution:
+    def findDuplicate(self, nums: List[int]) -> int:
+        n = len(nums)
+        for i in range(n):
+            while nums[i] != i + 1:
+                if nums[nums[i]-1] == nums[i]:
+                    return nums[i]
+                else:
+                    nums[nums[i]-1], nums[i] = nums[i], nums[nums[i]-1]
+
+{% endhighlight %}
+
+<p>In the code, we first initialize the length of the array as n. We then iterate through the array using the index i.</p>
+
+<p>For each element at index i, we check if it is in its correct position (i.e., if the element is i+1). If it is not in its correct position, we swap it with the element that should be at its position (i.e., the element at index nums[i]-1). We continue swapping until either we find the duplicate number or the element at the current position is already in its correct position.</p>
+
+<p>The time complexity of this algorithm is O(n), and the space complexity is O(1).</p>
