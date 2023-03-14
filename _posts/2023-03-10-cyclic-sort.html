@@ -248,3 +248,28 @@ class Solution:
         return out
 
 {% endhighlight %}
+
+
+<h3><a href="https://leetcode.com/problems/set-mismatch/">645. Set Mismatch</a></h3>
+
+<p>To solve this problem using cycle sort technique lets sort the list by swaping each element to its correct position
+    as ususal, then iterate over the list to find out which elements is not still in correct index and alongside also
+    find the missing number by adding 1 to that index.</p>
+
+{% highlight python %}
+
+class Solution:
+    def findErrorNums(self, nums: List[int]) -> List[int]:
+        i, n = 0, len(nums)
+        while i < n:
+            if nums[i] != nums[nums[i] - 1]:
+                j = nums[i] - 1
+                nums[i], nums[j] = nums[j], nums[i]
+            else:
+                i += 1
+
+        for i in range(n):
+            if nums[i] != i + 1:
+                return [nums[i], i + 1]
+
+{% endhighlight %}
