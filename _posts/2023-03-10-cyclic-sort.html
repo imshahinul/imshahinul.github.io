@@ -309,12 +309,26 @@ class Solution:
 
 {% endhighlight %}
 
-<p>If the swap is done using nums[nums[i] - 1], nums[i] = nums[i], nums[nums[i] - 1]. This means
-    that the value of nums[i] is assigned to nums[nums[i] - 1] before the value of nums[nums[i] - 1] is assigned to
+<p>If the swap is done using, This means</p>
+
+{% highlight python %}
+
+nums[nums[i] - 1], nums[i] = nums[i], nums[nums[i] - 1]
+
+{% endhighlight %}
+
+<p>that the value of nums[i] is assigned to nums[nums[i] - 1] before the value of nums[nums[i] - 1] is assigned to
     nums[i].</p>
 
-<p>If the swap is done using nums[i], nums[nums[i] - 1] = nums[nums[i] - 1], nums[i]. This means
-    that the value of nums[nums[i] - 1] is assigned to nums[i] before the value of nums[i] is assigned to nums[nums[i] -
+<p>If the swap is done using</p>
+
+{% highlight python %}
+
+nums[i], nums[nums[i] - 1] = nums[nums[i] - 1], nums[i]
+
+{% endhighlight %}
+
+<p>This means that the value of nums[nums[i] - 1] is assigned to nums[i] before the value of nums[i] is assigned to nums[nums[i] -
     1].</p>
 
 <p>This difference may seem small, but it can have an impact on the execution time of the code. In particular, the
