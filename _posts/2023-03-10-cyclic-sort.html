@@ -273,3 +273,50 @@ class Solution:
                 return [nums[i], i + 1]
 
 {% endhighlight %}
+
+
+<h3><a href="https://leetcode.com/problems/first-missing-positive/">41. First Missing Positive</a></h3>
+
+<p>Start by iterating through the array and swapping each element with the element at its correct position in the array
+    (i.e., the position corresponding to its value). For example, if the current element is 3, then it should be swapped
+    with the element at position 2 in the array, because 3 is the third positive integer.</p>
+
+<p>The swapping is done using a while loop that continues as long as the current element is within the range of 1 to n
+    (the length of the array), and its value is not equal to the value of the element at its correct position in the
+    array. The swapping is done using a tuple assignment, which allows us to swap two variables without needing a
+    temporary variable:</p>
+
+<p>After the first loop completes, we iterate through the array again to find the first index i such that nums[i] !=
+    i+1. The missing positive integer is then i+1.</p>
+
+<p>If all the positive integers are present in the array, we return n+1.</p>
+
+<p>So the overall idea is to use swapping to put each positive integer in its correct position in the array, and then
+    find the first missing positive integer by iterating through the array.</p>
+
+{% highlight python %}
+
+class Solution:
+    def firstMissingPositive(self, nums: List[int]) -> int:
+        n = len(nums)
+        for i in range(n):
+            while 1 <= nums[i] <= n and nums[i] != nums[nums[i] - 1]:
+                nums[nums[i] - 1], nums[i] = nums[i], nums[nums[i] - 1]
+        for i in range(n):
+            if i + 1 != nums[i]:
+                return i + 1
+        return n + 1
+
+{% endhighlight %}
+
+<p>If the swap is done using nums[nums[i] - 1], nums[i] = nums[i], nums[nums[i] - 1]. This means
+    that the value of nums[i] is assigned to nums[nums[i] - 1] before the value of nums[nums[i] - 1] is assigned to
+    nums[i].</p>
+
+<p>If the swap is done using nums[i], nums[nums[i] - 1] = nums[nums[i] - 1], nums[i]. This means
+    that the value of nums[nums[i] - 1] is assigned to nums[i] before the value of nums[i] is assigned to nums[nums[i] -
+    1].</p>
+
+<p>This difference may seem small, but it can have an impact on the execution time of the code. In particular, the
+    second solution may be slower because it requires an extra temporary variable to hold the value of nums[nums[i] - 1]
+    before it is overwritten and we get TLE with given leetcode testcases.</p>
